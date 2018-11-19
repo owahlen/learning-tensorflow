@@ -1,0 +1,27 @@
+# IDE or editors
+.idea/
+*.iml
+*.iws
+*~
+
+# Mac
+.DS_Store
+
+# downloaded data
+datasets/*
+!datasets/.gitkeep
+
+# model data
+model/*
+!model/.gitkeep
+
+# log data
+logs/*
+!logs/.gitkeep
+
+# generated data
+output/*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
