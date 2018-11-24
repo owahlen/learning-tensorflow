@@ -73,7 +73,7 @@ y_conv = full_layer(full1_drop, 10)
 # end of CNN construction
 #############################
 
-DATA_DIR = 'datasets'
+DATA_DIR = 'datasets/mnist'
 STEPS = 5000
 MINIBATCH_SIZE = 50
 

@@ -2,7 +2,7 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
-DATA_DIR = 'datasets'
+DATA_DIR = 'datasets/mnist'
 NUM_STEPS = 1000
 MINIBATCH_SIZE = 100
 

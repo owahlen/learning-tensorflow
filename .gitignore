@@ -9,11 +9,8 @@
 
 # downloaded data
 datasets/*
-!datasets/.gitkeep
-
-# model data
-model/*
-!model/.gitkeep
+!datasets/mnist/.gitkeep
+!datasets/cifar-10-batches-py/.gitkeep
 
 # log data
 logs/*
