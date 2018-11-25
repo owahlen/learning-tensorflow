@@ -7,14 +7,23 @@
 # Mac
 .DS_Store
 
-# downloaded data
-datasets/*
-!datasets/mnist/.gitkeep
-!datasets/cifar-10-batches-py/.gitkeep
+# datasets
+!/datasets
+/datasets/*
+
+# mnist
+!/datasets/mnist
+/datasets/mnist/*
+!/datasets/mnist/.gitkeep
+
+# cifar-10
+!/datasets/cifar-10-batches-py
+/datasets/cifar-10-batches-py/*
+!/datasets/cifar-10-batches-py/.gitkeep
 
 # log data
-logs/*
-!logs/.gitkeep
+/logs/*
+!/logs/.gitkeep
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
