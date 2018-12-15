@@ -1,0 +1,108 @@
+@startuml
+
+class tf.QueueBase(dtypes) {
+  Base class for queues
+  ==
+  enqueue(items)
+  ..
+  Create an enqueue operation to enqueue items.
+  Note that the session must be run to execute the operation.
+  __
+  dequeue()
+  ..
+  Create a dequeue operation for one item of the queue.
+  Note that the operation must be evaluated to retrieve the actual tensor.
+  __
+  dequeue_many(n_items)
+  ..
+  Create a dequeue operation for n_items items of the queue.
+  __
+  size()
+  ..
+  Return the current size of the queue.
+}
+
+
+class tf.FIFOQueue(capacity,dtypes) {
+  FIFO memory buffer for storing <i>capacity</i> elements of type <i>dtypes</i>
+}
+
+"tf.QueueBase(dtypes)" --|> "tf.FIFOQueue(capacity,dtypes)"
+
+class tf.RandomShuffleQueue(capacity,dtypes,min_after_dequeue) {
+  Memory buffor of size <i>capacity</i> that
+  dequeues the contained elements in random order.
+  After a dequeue there must be <i>min_after_dequeue</i> elements.
+}
+
+"tf.QueueBase(dtypes)" --|> "tf.RandomShuffleQueue(capacity,dtypes,min_after_dequeue)"
+
+
+class threading.Thread(target,args) {
+  Create a representation of a thread
+  that executes the <i>target</i> python method with the given <i>args</i>.
+  ==
+  start()
+  ..
+  Run the thread.
+}
+
+class tf.train.Coordinator() {
+  Coordinator for Threads.
+  ==
+  should_stop()
+  ..
+  Test if another thread has requested to stop work
+  __
+  request_stop()
+  ..
+  Request that all threads stop their work.
+  __
+  join(threads)
+  ..
+  Wait for all registered threads to terminate.
+}
+
+"tf.train.Coordinator()" --> "threading.Thread(target,args)"
+
+class tf.train.QueueRunner(queue,enqueue_ops) {
+  Holder class for the enqueue_ops that is able to create threads for them.
+  ==
+  create_threads(sess,coord,start)
+  ..
+  Using the given session and coordinator create a thread.
+  Start it if <i>start</i> is True.
+}
+
+"tf.train.QueueRunner(queue,enqueue_ops)" --> "tf.QueueBase(dtypes)"
+"tf.train.QueueRunner(queue,enqueue_ops)" --> "threading.Thread(target,args)"
+"tf.train.QueueRunner(queue,enqueue_ops)" --> "tf.train.Coordinator()"
+
+class tf.train.string_input_producer(filenames,num_epochs) << (M,#FF7700) >> {
+  Create a FIFOQueue with a QueueRunner
+  and enqueue the filenames num_epochs times.
+}
+
+"tf.train.string_input_producer(filenames,num_epochs)" --> "tf.FIFOQueue(capacity,dtypes)"
+"tf.train.string_input_producer(filenames,num_epochs)" --> "tf.train.QueueRunner(queue,enqueue_ops)"
+
+class tf.train.shuffle_batch(tensors,batch_size,capacity,min_after_dequeue) << (M,#FF7700) >> {
+  Creates batches by randomly shuffling tensors.
+  This function adds the following to the current Graph:
+  A shuffling queue into which tensors are enqueued.
+  A dequeue_many operation to create batches from the queue.
+  A QueueRunner, to enqueue the tensors.
+}
+
+"tf.train.shuffle_batch(tensors,batch_size,capacity,min_after_dequeue)" --> "tf.RandomShuffleQueue(capacity,dtypes,min_after_dequeue)"
+"tf.train.shuffle_batch(tensors,batch_size,capacity,min_after_dequeue)" --> "tf.train.QueueRunner(queue,enqueue_ops)"
+
+class tf.train.start_queue_runners(sess,coord) << (M,#FF7700) >> {
+  Start all QueueRunners that are registered in the Graph.
+}
+
+"tf.train.start_queue_runners(sess,coord)" --> "tf.train.QueueRunner(queue,enqueue_ops)"
+
+
+
+@enduml
