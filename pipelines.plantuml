@@ -67,6 +67,8 @@ class tf.train.Coordinator() {
 
 class tf.train.QueueRunner(queue,enqueue_ops) {
   Holder class for the enqueue_ops that is able to create threads for them.
+  The <i>queue</i> reference is used to close the queue in case of an OutOfRangeError
+  indicating that a previous queue is closed.
   ==
   create_threads(sess,coord,start)
   ..
